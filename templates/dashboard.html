@@ -18,6 +18,12 @@
     <div class="container">
         <div class="card shadow p-4">
             <h2 class="mb-4">Estructura Organizacional</h2>
+            
+            <div class="input-group mb-4">
+                <input type="text" id="nombreEmpresa" class="form-control" placeholder="Escribe el nombre de la empresa...">
+                <button class="btn btn-primary" onclick="cargarDatos()">Buscar Empresa</button>
+            </div>
+
             <div class="table-responsive">
                 <table class="table table-hover align-middle">
                     <thead class="table-dark">
@@ -29,7 +35,7 @@
                     </thead>
                     <tbody id="tabla-organigrama">
                         <tr>
-                            <td colspan="3" class="text-center">Cargando información del organigrama...</td>
+                            <td colspan="3" class="text-center">Ingresa el nombre de una empresa para comenzar la búsqueda.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -38,15 +44,23 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Llamamos a tu API de Python
-            fetch('/api/organigrama')
+        function cargarDatos() {
+            const empresa = document.getElementById('nombreEmpresa').value;
+            const tbody = document.getElementById('tabla-organigrama');
+            
+            if (!empresa) {
+                alert("Por favor, escribe el nombre de una empresa.");
+                return;
+            }
+
+            tbody.innerHTML = '<tr><td colspan="3" class="text-center">Buscando información...</td></tr>';
+
+            // Llamamos a tu API de Python pasando el nombre de la empresa
+            fetch(`/api/organigrama?nombre=${encodeURIComponent(empresa)}`)
                 .then(response => response.json())
                 .then(data => {
-                    const tbody = document.getElementById('tabla-organigrama');
-                    tbody.innerHTML = ''; // Limpiamos el mensaje de carga
+                    tbody.innerHTML = ''; 
 
-                    // Generamos las filas dinámicamente
                     data.estructura.forEach(item => {
                         let row = `<tr>
                             <td><strong>${item.puesto}</strong></td>
@@ -60,9 +74,9 @@
                 })
                 .catch(error => {
                     console.error('Error al cargar datos:', error);
-                    document.getElementById('tabla-organigrama').innerHTML = '<tr><td colspan="3" class="text-center text-danger">Error al cargar datos</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="3" class="text-center text-danger">Error al cargar datos. Inténtalo de nuevo.</td></tr>';
                 });
-        });
+        }
     </script>
 </body>
 </html>
