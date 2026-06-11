@@ -2,40 +2,26 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <title>Acceso</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso al Organigrama</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body class="bg-slate-900 text-white flex items-center justify-center h-screen">
-    <div class="bg-slate-800 p-8 rounded-lg shadow-xl w-96">
-        <h2 class="text-2xl font-bold mb-6 text-center">Control de Acceso</h2>
-        <input id="user" placeholder="Usuario" class="w-full p-3 mb-3 bg-slate-700 rounded border border-slate-600 focus:outline-none focus:border-blue-500">
-        <input id="pass" type="password" placeholder="Contraseña" class="w-full p-3 mb-6 bg-slate-700 rounded border border-slate-600 focus:outline-none focus:border-blue-500">
-        <button onclick="ingresar()" class="w-full bg-blue-600 hover:bg-blue-700 p-3 rounded font-bold transition">INGRESAR SISTEMA</button>
+<body class="bg-light">
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="card p-4 shadow" style="width: 350px;">
+            <h3 class="text-center mb-4">Iniciar Sesión</h3>
+            <form id="loginForm">
+                <div class="mb-3">
+                    <label class="form-label">Usuario</label>
+                    <input type="text" id="usuario" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" id="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Entrar</button>
+            </form>
+        </div>
     </div>
-
-    <script>
-        async function ingresar() {
-            const user = document.getElementById('user').value;
-            const pass = document.getElementById('pass').value;
-
-            try {
-                const response = await fetch('/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ usuario: user, password: pass })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    window.location.href = "/dashboard";
-                } else {
-                    alert('Error: ' + (data.error || 'Credenciales inválidas'));
-                }
-            } catch (err) {
-                alert('Error de conexión con el servidor');
-            }
-        }
-    </script>
 </body>
 </html>
