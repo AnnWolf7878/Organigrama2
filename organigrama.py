@@ -1,18 +1,11 @@
-﻿from flask import Flask, jsonify, render_template
+﻿from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-@app.route('/')
-def home():
-    return "Servidor funcionando correctamente"
-
-@app.route('/test-api')
-def test_api():
-    return jsonify({"status": "La API está viva"})
-
-@app.route('/api/organigrama')
+@app.route('/api/organigrama', methods=['GET'])
 def get_organigrama():
-    return jsonify({"estructura": [{"puesto": "Prueba", "nombre": "Funciona", "link": "#"}]})
+    # Respuesta directa sin lógica complicada
+    return jsonify({"estructura": [{"puesto": "TEST", "nombre": "CONEXION OK", "link": "#"}]})
 
 if __name__ == '__main__':
     app.run()
