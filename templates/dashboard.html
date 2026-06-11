@@ -10,28 +10,39 @@
         <div class="card shadow p-4">
             <h2>Estructura Organizacional</h2>
             <div class="input-group mb-4">
-                <input type="text" id="nombreEmpresa" class="form-control" placeholder="Escribe el nombre de la empresa...">
-                <button class="btn btn-primary" onclick="cargarDatos()">Buscar Empresa</button>
+                <input type="text" id="nombreEmpresa" class="form-control" placeholder="Escribe el nombre...">
+                <button class="btn btn-primary" onclick="ejecutarBusqueda()">Buscar Empresa</button>
             </div>
-            <table class="table table-hover">
+            <div id="status" class="text-muted">Esperando búsqueda...</div>
+            <table class="table table-hover mt-3">
                 <thead class="table-dark"><tr><th>Puesto</th><th>Nombre</th><th>Acción</th></tr></thead>
-                <tbody id="tabla-organigrama">
-                    <tr><td colspan="3" class="text-center">Ingresa una empresa para buscar</td></tr>
-                </tbody>
+                <tbody id="tabla-organigrama"></tbody>
             </table>
         </div>
     </div>
     <script>
-        function cargarDatos() {
+        function ejecutarBusqueda() {
+            const status = document.getElementById('status');
             const tbody = document.getElementById('tabla-organigrama');
-            tbody.innerHTML = '<tr><td colspan="3" class="text-center">Buscando...</td></tr>';
+            status.innerText = "Buscando...";
+            
+            console.log("Iniciando fetch a /api/organigrama");
+            
             fetch('/api/organigrama')
-                .then(r => r.json())
+                .then(response => {
+                    console.log("Respuesta recibida:", response.status);
+                    return response.json();
+                })
                 .then(data => {
+                    status.innerText = "Resultados obtenidos:";
                     tbody.innerHTML = '';
                     data.estructura.forEach(item => {
-                        tbody.innerHTML += `<tr><td>${item.puesto}</td><td>${item.nombre}</td><td><a href="${item.link}" class="btn btn-sm btn-info">Ver Perfil</a></td></tr>`;
+                        tbody.innerHTML += `<tr><td>${item.puesto}</td><td>${item.nombre}</td><td><button class="btn btn-sm btn-info">Ver</button></td></tr>`;
                     });
+                })
+                .catch(err => {
+                    status.innerText = "Error: " + err;
+                    console.error(err);
                 });
         }
     </script>
