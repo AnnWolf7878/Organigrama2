@@ -16,11 +16,10 @@ def login_post():
 
 @app.route('/api/organigrama', methods=['GET'])
 def get_organigrama():
-    # Esta es la ruta que te estaba dando 404
     return jsonify({
         "estructura": [
-            {"puesto": "Gerente General", "nombre": "Juan Pérez", "link": "#"},
-            {"puesto": "Gerente Comercial", "nombre": "Ana López", "link": "#"}
+            {"puesto": "Gerente", "nombre": "Juan", "link": "#"},
+            {"puesto": "Asistente", "nombre": "Ana", "link": "#"}
         ]
     })
 
