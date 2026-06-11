@@ -1,4 +1,4 @@
-﻿from flask import Flask, request, jsonify, render_template
+﻿from flask import Flask, render_template, jsonify
 
 app = Flask(__name__)
 
@@ -12,14 +12,12 @@ def dashboard():
 
 @app.route('/api/organigrama')
 def get_organigrama():
-    # Esta es la parte que causa el error si no está bien definida
-    # Ahora devuelve siempre una lista, incluso si está vacía
     return jsonify({
         "estructura": [
-            {"puesto": "Gerente General", "nombre": "Juan Pérez", "link": "https://linkedin.com"},
-            {"puesto": "Gerente Comercial", "nombre": "Ana López", "link": "https://linkedin.com"}
+            {"puesto": "Gerente General", "nombre": "Juan Pérez", "link": "#"},
+            {"puesto": "Gerente Comercial", "nombre": "Ana López", "link": "#"}
         ]
     })
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
