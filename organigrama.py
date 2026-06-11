@@ -1,4 +1,4 @@
-﻿from flask import Flask, render_template, jsonify
+﻿from flask import Flask, render_template, jsonify, request
 
 app = Flask(__name__)
 
@@ -10,8 +10,13 @@ def login():
 def dashboard():
     return render_template('dashboard.html')
 
-@app.route('/api/organigrama')
+@app.route('/login', methods=['POST'])
+def login_post():
+    return jsonify({"success": True})
+
+@app.route('/api/organigrama', methods=['GET'])
 def get_organigrama():
+    # Esta es la ruta que te estaba dando 404
     return jsonify({
         "estructura": [
             {"puesto": "Gerente General", "nombre": "Juan Pérez", "link": "#"},
