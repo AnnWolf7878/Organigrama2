@@ -1,18 +1,25 @@
-﻿from flask import Flask, jsonify, render_template
+﻿from flask import Flask, render_template, jsonify
 
 app = Flask(__name__)
 
+# Ruta principal
 @app.route('/')
 def home():
-    return "Servidor Operativo"
+    return render_template('login.html')
 
+# Ruta del Dashboard
 @app.route('/dashboard')
-def dash():
+def dashboard():
     return render_template('dashboard.html')
 
+# Ruta de la API
 @app.route('/api/organigrama')
-def api():
-    return jsonify({"estructura": [{"puesto": "TEST", "nombre": "CONEXION OK", "link": "#"}]})
+def get_organigrama():
+    return jsonify({
+        "estructura": [
+            {"puesto": "Gerente", "nombre": "Juan Pérez", "link": "#"}
+        ]
+    })
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
+    app.run()
