@@ -1,11 +1,18 @@
-﻿from flask import Flask, jsonify
+﻿from flask import Flask, jsonify, render_template
 
 app = Flask(__name__)
 
-@app.route('/api/organigrama', methods=['GET'])
-def get_organigrama():
-    # Respuesta directa sin lógica complicada
+@app.route('/')
+def home():
+    return "Servidor Operativo"
+
+@app.route('/dashboard')
+def dash():
+    return render_template('dashboard.html')
+
+@app.route('/api/organigrama')
+def api():
     return jsonify({"estructura": [{"puesto": "TEST", "nombre": "CONEXION OK", "link": "#"}]})
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=10000)
